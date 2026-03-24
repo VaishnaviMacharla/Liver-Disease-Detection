@@ -11,11 +11,29 @@ IMG_SIZE = 224
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
 
-MODEL_PATH = os.path.join(PROJECT_ROOT, "results_resnet", "best_model.keras")
+from huggingface_hub import hf_hub_download
+import os
+
+# HuggingFace repo for model (update with your repo after upload)
+HF_REPO_ID = "VaishnaviMacharla/liver-model"  # Create this repo on HF
+MODEL_FILENAME = "best_model.keras"
+MODEL_PATH = os.path.join(PROJECT_ROOT, "results_resnet", MODEL_FILENAME)
+
 STATIC_FOLDER = os.path.join(PROJECT_ROOT, "static")
 OUTPUT_FOLDER = os.path.join(STATIC_FOLDER, "gradcam_outputs")
 
+os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+# Download model if not present
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model from HuggingFace...")
+    MODEL_PATH = hf_hub_download(
+        repo_id=HF_REPO_ID,
+        filename=MODEL_FILENAME,
+        local_dir=os.path.dirname(MODEL_PATH)
+    )
+    print(f"Model downloaded to {MODEL_PATH}")
 
 # Load trained model
 model = tf.keras.models.load_model(MODEL_PATH)
