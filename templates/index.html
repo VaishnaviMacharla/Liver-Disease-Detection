@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liver Disease Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.75)),
+                        url("https://images.unsplash.com/photo-1581594693702-fbdc51b2763b") 
+                        no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 850px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 44px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .quote {
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 45px;
+            line-height: 1.6;
+            color: #e6f1ff;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 14px 35px;
+            margin: 10px;
+            font-size: 17px;
+            font-weight: 500;
+            border-radius: 30px;
+            transition: 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .info-btn {
+            background-color: #16a085;
+            color: white;
+        }
+
+        .info-btn:hover {
+            background-color: #138d75;
+            transform: translateY(-3px);
+        }
+
+        .test-btn {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        .test-btn:hover {
+            background-color: #1f618d;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #cccccc;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 30px;
+            }
+
+            .quote {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Liver Disease Detection System</h1>
+
+        <p class="quote">
+            "The liver is the silent guardian of our body — early detection through AI can protect it before damage becomes irreversible."
+        </p>
+
+        <div class="btn-container">
+            <a href="/information" class="btn info-btn">Information Page</a>
+            <a href="/register" class="btn test-btn">Register / Login</a>
+            <a href="/history" class="btn info-btn">View History</a>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Liver Health AI | Intelligent Medical Image Analysis System
+    </footer>
+
+</body>
+</html>

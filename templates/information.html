@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Information</title>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <h1>Basic Information</h1>
+  </header>
+
+  <div class="container">
+
+    <!-- Importance of Liver -->
+    <section class="importance">
+      
+      <!-- Professional AI-Generated Liver SVG -->
+      <div class="liver-image">
+        
+
+          <defs>
+            <!-- 3D Gradient -->
+            <radialGradient id="mainGradient" cx="40%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#ff6b6b"/>
+              <stop offset="60%" stop-color="#c0392b"/>
+              <stop offset="100%" stop-color="#6e1e1e"/>
+            </radialGradient>
+
+            <!-- Glow Effect -->
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Shadow -->
+          <ellipse cx="260" cy="290" rx="150" ry="25" fill="rgba(0,0,0,0.2)"/>
+
+          <!-- Liver Shape -->
+          <path d="M80,190 
+                   C90,90 220,40 380,100
+                   C460,130 440,240 320,260
+                   C200,280 100,250 80,190 Z"
+                fill="url(#mainGradient)"
+                filter="url(#glow)"
+                stroke="#4b0f0f"
+                stroke-width="4"/>
+
+          <!-- Subtle highlight -->
+          <path d="M140,150 
+                   C180,100 260,80 330,110"
+                stroke="rgba(255,255,255,0.4)"
+                stroke-width="6"
+                fill="none"
+                stroke-linecap="round"/>
+
+        </svg>
+      </div>
+
+      <div class="text">
+        <h2>Importance of the Liver</h2>
+        <p>
+          The liver is a vital organ responsible for filtering toxins, aiding digestion, and regulating metabolism.  
+          It produces bile which helps in breaking down fats and processes nutrients absorbed from food.  
+          The liver stores essential vitamins and minerals, regulates blood sugar levels, and detoxifies harmful substances.  
+          A healthy liver ensures balance, immunity, and overall well-being.  
+          Protecting liver health through early detection and proper lifestyle choices is essential for long-term survival.  
+        </p>
+      </div>
+    </section>
+
+
+    <!-- Types of Liver Diseases -->
+    <section class="diseases">
+      <h2>Common Types of Liver Diseases</h2>
+      <ul>
+        <li><strong>Hepatitis:</strong> Viral inflammation affecting liver function.</li>
+        <li><strong>Cirrhosis:</strong> Severe scarring caused by long-term liver damage.</li>
+        <li><strong>Fatty Liver Disease (NAFLD):</strong> Excess fat buildup in liver cells.</li>
+        <li><strong>Liver Fibrosis:</strong> Early stage tissue scarring.</li>
+        <li><strong>Liver Cancer:</strong> Uncontrolled abnormal liver cell growth.</li>
+      </ul>
+    </section>
+
+    <!-- Suggestions -->
+    <section class="suggestions">
+      <h2>Suggestions to Prevent Liver Diseases</h2>
+      <ol>
+        <li>Avoid excessive alcohol consumption.</li>
+        <li>Maintain a balanced diet.</li>
+        <li>Exercise regularly.</li>
+        <li>Drink sufficient water daily.</li>
+        <li>Get vaccinated against hepatitis.</li>
+        <li>Schedule regular medical checkups.</li>
+      </ol>
+    </section>
+
+  </div>
+
+<style>
+
+/* Body */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #f8fbff, #d9e8f5);
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: white;
+  padding: 18px 30px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Importance Section */
+.importance {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 50px;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+}
+
+.liver-image {
+  width: 400px;
+}
+
+.liver-image svg {
+  width: 100%;
+}
+
+/* Diseases */
+.diseases {
+  margin-bottom: 40px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+}
+
+.diseases h2 {
+  color: #1e3c72;
+}
+
+.diseases ul {
+  padding-left: 20px;
+}
+
+.diseases li {
+  margin-bottom: 12px;
+}
+
+/* Suggestions */
+.suggestions {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+}
+
+.suggestions h2 {
+  color: #1e3c72;
+}
+
+.suggestions ol {
+  padding-left: 20px;
+}
+
+.suggestions li {
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .importance {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .liver-image {
+    width: 300px;
+  }
+}
+
+</style>
+
+</body>
+</html>

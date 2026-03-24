@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #f8fbff, #d9e8f5);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: white;
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            margin-bottom: 30px;
+        }
+
+        .search-form input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 70%;
+            font-size: 16px;
+        }
+
+        .search-form button {
+            padding: 12px 25px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-form button:hover {
+            background: #1e3c72;
+        }
+
+        .patient-info {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .patient-info h2 {
+            margin-bottom: 15px;
+        }
+
+        .patient-info p {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .predictions-list h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .prediction-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ddd;
+        }
+
+        .prediction-card.healthy {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+
+        .prediction-card.disease {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .prediction-result {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .biomedical-data {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .biomedical-data h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .biomedical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .biomedical-grid span {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-history p {
+            margin-bottom: 20px;
+        }
+
+        .flash-messages {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .flash-messages .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash-messages .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background: #8e3a59;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #6d2a45;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="navbar">
+        <h1>Patient History</h1>
+        <a href="/" class="btn">Home</a>
+    </div>
+
+    <div class="card">
+        <div class="search-form">
+            <h2>Find Your History</h2>
+            <form method="POST" action="/history">
+                <input type="email" name="email" placeholder="Enter your email to view history" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        {% if history and patient_id %}
+            <div style="text-align: center; margin-bottom: 20px;">
+                <a href="/download_report/{{ patient_id }}" class="btn-primary" style="background: #28a745;">Download/Print Report</a>
+            </div>
+            {{ history | safe }}
+        {% else %}
+            <div class="no-history">
+                <p>No patient history found.</p>
+                <p>Please enter your email above to view your prediction history, or register as a new patient.</p>
+                <div class="buttons">
+                    <a href="/register" class="btn-primary">Register as New Patient</a>
+                    <a href="/test" class="btn-primary" style="background: #2a5298;">Go to Test Page</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
+

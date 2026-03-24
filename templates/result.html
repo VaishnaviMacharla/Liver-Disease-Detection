@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #f8fbff, #d9e8f5);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .result-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Centered Prediction Result Card */
+        .prediction-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .prediction-card h1 {
+            color: #8e3a59;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .result-title.healthy {
+            background: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .result-title.disease {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        .confidence {
+            font-size: 22px;
+            color: #555;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .gradcam-container {
+            margin-top: 25px;
+        }
+
+        .gradcam-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-height: 400px;
+        }
+
+        .gradcam-label {
+            font-size: 18px;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Recommendations - Left Aligned */
+        .recommendations-container {
+            text-align: left;
+        }
+
+        .recommendations {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+        }
+
+        .recommendations h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        /* Recovery Steps */
+        .recovery-steps {
+            background: #e7f3ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #007bff;
+            text-align: left;
+        }
+
+        .recovery-steps h3 {
+            color: #0056b3;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .recovery-steps ol {
+            padding-left: 25px;
+            text-align: left;
+        }
+
+        .recovery-steps li {
+            padding: 8px 0;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Diet Section */
+        .diet-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .diet-section h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .diet-columns {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .diet-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .diet-column h4 {
+            margin-bottom: 12px;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        .diet-column:first-child h4 {
+            color: #28a745;
+        }
+
+        .diet-column:last-child h4 {
+            color: #dc3545;
+        }
+
+        .diet-column ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .diet-column li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+        }
+
+        .diet-column:first-child li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .diet-column:last-child li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Meal Tips */
+        .meal-tips {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+            text-align: left;
+        }
+
+        .meal-tips h4 {
+            color: #856404;
+            margin-bottom: 12px;
+        }
+
+        .meal-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .meal-tips li {
+            color: #856404;
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .meal-tips li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Follow-up */
+        .follow-up {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #007bff;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .follow-up h3 {
+            color: #0056b3;
+            margin-bottom: 12px;
+        }
+
+        .follow-up p {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            margin: 10px 10px 10px 0;
+            padding: 12px 25px;
+            background: #8e3a59;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #6d2a45;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #2a5298;
+        }
+
+        .btn-secondary:hover {
+            background: #1e3c72;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Do/Dont Sections for Healthy */
+        .do-dont-container {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            text-align: left;
+        }
+
+        .do-section, .dont-section {
+            flex: 1;
+            min-width: 280px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .do-section {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+        }
+
+        .dont-section {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+        }
+
+        .do-section h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .dont-section h3 {
+            color: #721c24;
+            margin-bottom: 15px;
+        }
+
+        .do-section ul, .dont-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .do-section li, .dont-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+        }
+
+        .do-section li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .dont-section li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .do-dont-container, .diet-columns {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="result-container">
+    <div class="navbar">
+        <h1>Liver Disease Detection - Result</h1>
+    </div>
+
+    <!-- CENTERED PREDICTION RESULT -->
+    <div class="prediction-card">
+        <h1>Prediction Result</h1>
+
+        <div class="result-title {{ 'healthy' if result.prediction == 'Healthy' else 'disease' }}">
+            {{ result.title }}
+        </div>
+
+        <div class="confidence">
+            Confidence: {{ result.confidence }}%
+        </div>
+
+        {% if result.gradcam_path %}
+        <div class="gradcam-container">
+            <div class="gradcam-label">Grad-CAM Visualization</div>
+            <img src="{{ url_for('static', filename=result.gradcam_path) }}">
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- RECOMMENDATIONS - LEFT ALIGNED -->
+    {% if result.recommendations %}
+    <div class="recommendations-container">
+        <div class="recommendations">
+            {{ result.recommendations | safe }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="buttons">
+        <a href="/test" class="btn">Test Another Image</a>
+        <a href="/history" class="btn btn-secondary">View History</a>
+        <a href="/" class="btn btn-secondary">Home</a>
+    </div>
+</div>
+
+</body>
+</html>
+

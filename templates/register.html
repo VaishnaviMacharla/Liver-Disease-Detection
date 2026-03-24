@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register / Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #f8fbff, #d9e8f5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            color: #666;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .tab.active {
+            color: #8e3a59;
+            border-bottom: 3px solid #8e3a59;
+            margin-bottom: -2px;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #8e3a59;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            background: #6d2a45;
+        }
+
+        .btn-secondary {
+            background: #2a5298;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #1e3c72;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #8e3a59;
+            color: #8e3a59;
+            margin-top: 10px;
+        }
+
+        .btn-outline:hover {
+            background: #8e3a59;
+            color: white;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #2a5298;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .flash {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info {
+            background: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Liver Disease Detection</h1>
+    <p class="subtitle">Register or Login to continue</p>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('register')">Register</div>
+        <div class="tab" onclick="switchTab('login')">Login</div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="form-container active" id="register-form">
+        <form method="POST" action="/register">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="1" max="150">
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px;">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-container" id="login-form">
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="login-email">Email Address *</label>
+                <input type="email" id="login-email" name="email" required>
+            </div>
+
+            <button type="submit" class="btn btn-secondary">Login</button>
+        </form>
+    </div>
+
+    <div class="links">
+        <a href="/">Back to Home</a>
+    </div>
+</div>
+
+<script>
+    function switchTab(tab) {
+        // Update tab styles
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Show/hide forms
+        document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+        document.getElementById(tab + '-form').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
+

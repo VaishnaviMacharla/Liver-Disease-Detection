@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter Test Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Times New Roman", Times, serif;
+      background: linear-gradient(to right, white 60%, #8e3a59 40%);
+      color: #222;
+    }
+
+    .navbar {
+      background-color: #8e3a59;
+      color: white;
+      padding: 15px 30px;
+      text-align: left;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      padding: 8px 15px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 5px;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .patient-info, .biomedical, .image-upload {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      color: #8e3a59;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input[type="number"], input[type="file"], input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .optional-note {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+    }
+
+    .button-group {
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 30px;
+      border: 2px solid #8e3a59;
+      background: transparent;
+      color: #8e3a59;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #8e3a59;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <h1>Enter Test Results</h1>
+    <div class="nav-links">
+      <a href="/history">View History</a>
+      <a href="/">Home</a>
+    </div>
+  </header>
+
+  <!-- IMPORTANT: CONNECTED TO FLASK -->
+  <form action="http://127.0.0.1:5000/predict" method="POST" enctype="multipart/form-data">
+
+    <div class="container">
+
+      <!-- Patient Information Section -->
+      <section class="patient-info">
+        <h2>Patient Information (Optional - for history tracking)</h2>
+        
+        <div class="form-group">
+          <label>Patient Name</label>
+          <input type="text" name="patient_name" placeholder="Enter your name">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="patient_email" placeholder="your.email@example.com">
+          <span class="optional-note">Used for tracking your prediction history</span>
+        </div>
+
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" name="patient_age" min="1" max="150" placeholder="Your age">
+        </div>
+
+      </section>
+
+      <section class="biomedical">
+        <h2>Biomedical Test Data</h2>
+
+        <div class="form-group">
+          <label>Total Bilirubin (mg/dL)</label>
+          <input type="number" step="0.01" name="total_bilirubin" required>
+        </div>
+
+        <div class="form-group">
+          <label>Direct Bilirubin (mg/dL)</label>
+          <input type="number" step="0.01" name="direct_bilirubin" required>
+        </div>
+
+        <div class="form-group">
+          <label>Alkaline Phosphate (U/L)</label>
+          <input type="number" name="alk_phosphate" required>
+        </div>
+
+        <div class="form-group">
+          <label>ALT (U/L)</label>
+          <input type="number" name="alt" required>
+        </div>
+
+        <div class="form-group">
+          <label>AST (U/L)</label>
+          <input type="number" name="ast" required>
+        </div>
+
+        <div class="form-group">
+          <label>Total Proteins (g/dL)</label>
+          <input type="number" step="0.01" name="proteins" required>
+        </div>
+
+        <div class="form-group">
+          <label>Albumin (g/dL)</label>
+          <input type="number" step="0.01" name="albumin" required>
+        </div>
+
+        <div class="form-group">
+          <label>Albumin : Globulin Ratio</label>
+          <input type="number" step="0.01" name="ratio" required>
+        </div>
+
+      </section>
+
+      <section class="image-upload">
+        <h2>Upload Scan Image</h2>
+
+        <div class="form-group">
+          <label>Upload Ultrasound or CT Scan</label>
+          <input type="file" name="image" accept="image/*" required>
+        </div>
+      </section>
+
+      <div class="button-group">
+        <button type="submit">Predict</button>
+      </div>
+
+    </div>
+
+  </form>
+
+</body>
+</html>

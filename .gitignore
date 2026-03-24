@@ -1,0 +1,16 @@
+venv/
+__pycache__/
+*.pyc
+*.pyd
+.env
+*.db
+data/
+images/
+results_resnet/
+static/uploads/
+static/gradcam_outputs/
+static/reports/
+*.keras
+*.h5
+*.pth
+*.pt
