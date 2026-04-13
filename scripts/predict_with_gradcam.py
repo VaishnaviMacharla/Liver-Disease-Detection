@@ -1,4 +1,6 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'  # Suppress oneDNN
 import numpy as np
 import tensorflow as tf
 import cv2
@@ -35,10 +37,9 @@ if not os.path.exists(MODEL_PATH):
     )
     print(f"Model downloaded to {MODEL_PATH}")
 
-# Load trained model
-model = tf.keras.models.load_model(MODEL_PATH)
-
-# Ensure this matches your training order
+# Lazy loaded model and layer
+_model = None
+_last_conv_layer = None
 class_names = ["Grade_1", "Grade_2", "Healthy"]
 
 
@@ -47,7 +48,15 @@ class_names = ["Grade_1", "Grade_2", "Healthy"]
 # ==============================
 
 def predict_image(image_path):
-
+    global _model, _last_conv_layer
+    
+    # Lazy load model
+    if _model is None:
+        print("🔄 Loading model (first prediction)...", flush=True)
+        _model = tf.keras.models.load_model(MODEL_PATH, safe_mode=False, compile=False)
+        _last_conv_layer = _model.get_layer("conv5_block3_out")
+        print("✅ Model loaded!")
+    
     img = tf.keras.preprocessing.image.load_img(
         image_path, target_size=(IMG_SIZE, IMG_SIZE)
     )
@@ -55,7 +64,7 @@ def predict_image(image_path):
     img_array = np.expand_dims(img_array, axis=0)
     img_array = tf.keras.applications.resnet50.preprocess_input(img_array)
 
-    preds = model.predict(img_array)
+    preds = _model.predict(img_array)
     predicted_index = np.argmax(preds[0])
     predicted_label = class_names[predicted_index]
 
@@ -94,12 +103,11 @@ def predict_image(image_path):
 # ==============================
 
 def generate_gradcam(image_path, class_index):
-
-    last_conv_layer = model.get_layer("conv5_block3_out")
+    global _model, _last_conv_layer  # Ensure available
 
     grad_model = tf.keras.models.Model(
-        [model.inputs],
-        [last_conv_layer.output, model.output]
+        [_model.inputs],
+        [_last_conv_layer.output, _model.output]
     )
 
     img = tf.keras.preprocessing.image.load_img(
