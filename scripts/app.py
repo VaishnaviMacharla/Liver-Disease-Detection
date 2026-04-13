@@ -1,8 +1,10 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import uuid
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
 from werkzeug.utils import secure_filename
-from predict_with_gradcam import predict_image
+from predict_with_gradcam_fixed import predict_image
 from patient_history import add_patient, add_prediction, get_patient_by_email, get_patient_history, get_patient_by_id, format_history_html, init_database
 from recommendations import get_recommendations
 from report_generator import generate_pdf_report
